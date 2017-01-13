@@ -1,132 +1,152 @@
-window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(a){window.setTimeout(a,1E3/60)}}();
+var sketch = Sketch.create(),
+    center = {
+      x: sketch.width / 2,
+      y: sketch.height / 2
+    },
+    orbs = [],    
+    dt = 1,
+    opt = {
+      total: 0,
+      count: 100,
+      spacing: 2,
+      speed: 65,
+      scale: 1,
+      jitterRadius: 0,
+      jitterHue: 0,
+      clearAlpha: 10,
+      toggleOrbitals: true,
+      orbitalAlpha: 100,
+      toggleLight: true,      
+      lightAlpha: 5,
+      clear: function(){
+        sketch.clearRect( 0, 0, sketch.width, sketch.height ),
+        orbs.length = 0; 
+      }
+    };
 
-document.onselectstart = function() {
+var Orb = function( x, y ){
+  var dx = ( x / opt.scale ) - ( center.x / opt.scale ),
+	    dy = ( y / opt.scale ) - ( center.y / opt.scale );
+  this.angle = atan2( dy, dx );
+  this.lastAngle = this.angle;
+	this.radius = sqrt( dx * dx + dy * dy );
+  this.size = ( this.radius / 300 ) + 1;
+	this.speed = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
+};
+
+Orb.prototype.update = function(){  
+  this.lastAngle = this.angle;
+  this.angle += this.speed * ( opt.speed / 50 ) * dt;
+  this.x = this.radius * cos( this.angle );
+  this.y = this.radius * sin( this.angle );
+};
+
+Orb.prototype.render = function(){
+  if(opt.toggleOrbitals){
+    var radius = ( opt.jitterRadius === 0 ) ? this.radius : this.radius + random( -opt.jitterRadius, opt.jitterRadius );
+   radius = ( opt.jitterRadius != 0 && radius < 0 ) ? 0.001 : radius;
+    sketch.strokeStyle = 'hsla( ' + ( ( this.angle + 90 ) / ( PI / 180 ) + random( -opt.jitterHue, opt.jitterHue ) ) + ', 100%, 50%, ' + ( opt.orbitalAlpha / 100 ) + ' )';
+    sketch.lineWidth = this.size;			
+    sketch.beginPath();
+    if(opt.speed >= 0){
+      sketch.arc( 0, 0, radius, this.lastAngle, this.angle + 0.001, false );
+    } else {
+      sketch.arc( 0, 0, radius, this.angle, this.lastAngle + 0.001, false );
+    };
+    sketch.stroke();
+    sketch.closePath();
+  };
+  
+  if(opt.toggleLight){
+    sketch.lineWidth = .5;
+    sketch.strokeStyle = 'hsla( ' + ( ( this.angle + 90 ) / ( PI / 180 ) + random( -opt.jitterHue, opt.jitterHue ) ) + ', 100%, 70%, ' + ( opt.lightAlpha / 100 ) + ' )';
+    sketch.beginPath();
+    sketch.moveTo( 0, 0 );
+    sketch.lineTo( this.x, this.y );
+    sketch.stroke();
+  };
+};
+
+var createOrb = function( config ){
+  var x = ( config && config.x ) ? config.x : sketch.mouse.x,
+      y = ( config && config.y ) ? config.y : sketch.mouse.y;
+	orbs.push( new Orb( x, y ) );
+};
+
+var turnOnMove = function(){
+	sketch.mousemove = createOrb;	
+};
+
+var turnOffMove = function(){
+	sketch.mousemove = null;	
+};
+
+sketch.mousedown = function(){
+  createOrb();
+  turnOnMove();
+};
+
+sketch.mouseup = turnOffMove;
+
+sketch.resize = function(){
+  center.x = sketch.width / 2;
+  center.y = sketch.height / 2;
+  sketch.lineCap = 'round';
+};
+
+sketch.setup = function(){  
+  while( opt.count-- ){
+    createOrb( {
+      x: random( sketch.width / 2 - 300, sketch.width / 2 + 300 ), 
+      y: random( sketch.height / 2 - 300, sketch.height / 2 + 300 ) 
+    } );
+  };
+};
+
+sketch.clear = function(){
+  sketch.globalCompositeOperation = 'destination-out';
+  sketch.fillStyle = 'rgba( 0, 0, 0 , ' + ( opt.clearAlpha / 100 ) + ' )';
+	sketch.fillRect( 0, 0, sketch.width, sketch.height );
+  sketch.globalCompositeOperation = 'lighter';
+};
+
+sketch.update = function(){
+  dt = ( sketch.dt < 0.1 ) ? 0.1 : sketch.dt / 16;
+  dt = ( dt > 5 ) ? 5 : dt;
+  var i = orbs.length;
+  opt.total = i;
+  while( i-- ){ 
+    orbs[i].update();
+  }
+};
+
+sketch.draw = function(){
+  sketch.save();
+  sketch.translate( center.x, center.y );
+  sketch.scale( opt.scale, opt.scale );
+  var i = orbs.length;
+	while( i-- ){	
+    orbs[i].render();	
+  }
+  sketch.restore();
+};
+
+gui = new dat.GUI( { autoPlace: false } )
+gui.add( opt, 'total' ).name( 'Total Orbitals' ).listen();
+gui.add( opt, 'speed' ).min( -300 ).max( 300 ).step( 1 ).name( 'Speed' );
+gui.add( opt, 'scale' ).min( 0.5 ).max( 5 ).step( 0.001 ).name( 'Scale' );
+gui.add( opt, 'jitterRadius' ).min( 0 ).max( 5 ).step( 0.001 ).name( 'Radius Jitter' );
+gui.add( opt, 'jitterHue' ).min( 0 ).max( 90 ).step( 1 ).name( 'Hue Jitter' );
+gui.add( opt, 'clearAlpha' ).min( 0 ).max( 100 ).step( 1 ).name( 'Clear Alpha' );
+gui.add( opt, 'toggleOrbitals' ).name( 'Toggle Orbitals' )
+gui.add( opt, 'orbitalAlpha' ).min( 0 ).max( 100 ).step( 1 ).name( 'Orbital Alpha' );
+gui.add( opt, 'toggleLight' ).name( 'Toggle Light' );
+gui.add( opt, 'lightAlpha' ).min( 0 ).max( 100 ).step( 1 ).name( 'Light Alpha' );
+
+gui.add( opt, 'clear' ).name( 'Clear' );
+customContainer = document.getElementById( 'gui' );
+customContainer.appendChild(gui.domElement);
+  
+document.onselectstart = function(){
   return false;
 };
-var c = document.getElementById('c');
-var ctx = c.getContext('2d');
-c.width = cw = window.innerWidth;
-c.height = ch = window.innerHeight;
-var rand = function(rMi, rMa){return ~~((Math.random()*(rMa-rMi+1))+rMi);}
-ctx.lineCap = 'round';
-var orbs = [];
-var orbCount = 30;
-var radius;
-
-var trailCB = document.getElementById('trail');
-var trail = trailCB.checked;
-var clearer = document.getElementById('clear');
-
-function createOrb(mx,my){
-  var dx = (cw/2) - mx;
-	var dy = (ch/2) - my;
-	var dist = Math.sqrt(dx * dx + dy * dy);
-	var angle = Math.atan2(dy, dx);
-	orbs.push({
-		x: mx,
-		y: my,
-		lastX: mx,
-		lastY: my,
-		hue: 0,
-		colorAngle: 0,
-		angle: angle + Math.PI/2,
-		//size: .5+dist/250,
-		size: rand(1,3)/2,
-		centerX: cw/2,
-		centerY: ch/2,		
-		radius: dist,
-		speed: (rand(5,10)/1000)*(dist/750)+.015,
-		alpha: 1 - Math.abs(dist)/cw,
-		draw: function() {			
-			ctx.strokeStyle = 'hsla('+this.colorAngle+',100%,50%,1)';	
-			ctx.lineWidth = this.size;			
-			ctx.beginPath();
-			ctx.moveTo(this.lastX, this.lastY);
-			ctx.lineTo(this.x, this.y);
-			ctx.stroke();
-		},	
-		update: function(){
-			var mx = this.x;
-			var my = this.y;	
-			this.lastX = this.x;
-			this.lastY = this.y;
-			var x1 = cw/2;
-			var y1 = ch/2;
-			var x2 = mx;
-			var y2 = my;		
-			var rise = y1-y2;
-			var run = x1-x2;
-			var slope = -(rise/run);
-			var radian = Math.atan(slope);
-			var angleH = Math.floor(radian*(180/Math.PI));		
-			if(x2 < x1 && y2 < y1){angleH += 180;}		
-			if(x2 < x1 && y2 > y1){angleH += 180;}		
-			if(x2 > x1 && y2 > y1){angleH += 360;}		
-			if(y2 < y1 && slope =='-Infinity'){angleH = 90;}		
-			if(y2 > y1 && slope =='Infinity'){angleH = 270;}		
-			if(x2 < x1 && slope =='0'){angleH = 180;}
-			if(isNaN(angleH)){angleH = 0;}
-			
-			this.colorAngle = angleH;
-			this.x = this.centerX + Math.sin(this.angle*-1) * this.radius;
-			this.y = this.centerY + Math.cos(this.angle*-1) * this.radius;
-			this.angle += this.speed;
-		
-		}
-	});
-}
-
-function orbGo(e){
-	var mx = e.pageX - c.offsetLeft;
-	var my = e.pageY - c.offsetTop;		
-	createOrb(mx,my);
-}
-
-function turnOnMove(){
-	c.addEventListener('mousemove', orbGo, false);	
-}
-
-function turnOffMove(){
-	c.removeEventListener('mousemove', orbGo, false);	
-}
-
-function toggleTrails(){
-	trail = trailCB.checked;
-}
-
-function clear(){
- orbs = []; 
-}
-
-c.addEventListener('mousedown', orbGo, false);
-c.addEventListener('mousedown', turnOnMove, false);
-c.addEventListener('mouseup', turnOffMove, false);
-trailCB.addEventListener('change', toggleTrails, false);
-clearer.addEventListener('click', clear, false);
-
-var count = 100;
-while(count--){
-		createOrb(cw/2, ch/2+(count*2));
-}
-
-var loop = function(){
-  window.requestAnimFrame(loop);
-	if(trail){
-		ctx.fillStyle = 'rgba(0,0,0,.1)';
-		ctx.fillRect(0,0,cw,ch);
-	} else {
-		ctx.clearRect(0,0,cw,ch);
-	}
-	var i = orbs.length;
-	while(i--){	
-		var orb = orbs[i];	
-		var updateCount = 3;
-		while(updateCount--){
-		orb.update();		
-		orb.draw(ctx);
-		}
-		
-	}
-}
-            
-loop();
