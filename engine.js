@@ -1,93 +1,132 @@
-var canvas,ctx,p;
-canvas = document.getElementsByTagName('canvas')[0];
-ctx = canvas.getContext('2d');
-canvas.width=canvas.height=400;
-aaa();
+window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(a){window.setTimeout(a,1E3/60)}}();
 
-function aaa(){
-    var a,b,c,d,s,tim,q,qt,x,y,r,tx,ty;
-    ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle="rgb(0,0,0)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.globalCompositeOperation = "lighter";
-    
-    tx=canvas.width/2;
-    ty=canvas.height/2;
-    tim=new Date().getTime()/31;
-    
-    p=[];
-    for(a=0;a<3;a++){
-        b=(a+1)/4;
-        x=b;
-        y=0;
-        r=tim/13+a*(2);
-        x+=Math.cos(r)*0.12;
-        y+=Math.sin(r)*0.12;
-        p.push([x,y]);
-    }
-    
-    r=tim/73;
-    q=[];
-    s=[];
-    for(a=0;a<3;a++){
-        x=Math.cos(r)*180;
-        y=Math.sin(r)*180;
-        q.push([tx+x,ty+y]);
-        s.push([tx-x,ty-y]);
-        r+=Math.PI*2/3;
-    }
-    
-    ctx.strokeStyle="hsl(44,60%,60%)";
-    qt=[];
-    for(a=0;a<3;a++){
-        b=(a+1)%3;
-        qt[a]=[];
-        koch(q[a][0],q[a][1],q[b][0],q[b][1],4,qt[a]);
-        qt[a].push(q[b]);
-    }
-    
-    ctx.strokeStyle="hsla("+(44)+",60%,60%,0.08)";
-    for(a=0;a<3;a++){
-        b=qt[a];
-        d=s[(a+2)%3];
-        for(c=0;c<b.length;c++){
-            ctx.beginPath();
-            ctx.lineTo(d[0],d[1]);
-            ctx.lineTo(b[c][0],b[c][1]);
-            ctx.lineTo(tx,ty);
-            ctx.stroke();
-        }
-    }
-    requestAnimationFrame(aaa);
+document.onselectstart = function() {
+  return false;
+};
+var c = document.getElementById('c');
+var ctx = c.getContext('2d');
+c.width = cw = window.innerWidth;
+c.height = ch = window.innerHeight;
+var rand = function(rMi, rMa){return ~~((Math.random()*(rMa-rMi+1))+rMi);}
+ctx.lineCap = 'round';
+var orbs = [];
+var orbCount = 30;
+var radius;
+
+var trailCB = document.getElementById('trail');
+var trail = trailCB.checked;
+var clearer = document.getElementById('clear');
+
+function createOrb(mx,my){
+  var dx = (cw/2) - mx;
+	var dy = (ch/2) - my;
+	var dist = Math.sqrt(dx * dx + dy * dy);
+	var angle = Math.atan2(dy, dx);
+	orbs.push({
+		x: mx,
+		y: my,
+		lastX: mx,
+		lastY: my,
+		hue: 0,
+		colorAngle: 0,
+		angle: angle + Math.PI/2,
+		//size: .5+dist/250,
+		size: rand(1,3)/2,
+		centerX: cw/2,
+		centerY: ch/2,		
+		radius: dist,
+		speed: (rand(5,10)/1000)*(dist/750)+.015,
+		alpha: 1 - Math.abs(dist)/cw,
+		draw: function() {			
+			ctx.strokeStyle = 'hsla('+this.colorAngle+',100%,50%,1)';	
+			ctx.lineWidth = this.size;			
+			ctx.beginPath();
+			ctx.moveTo(this.lastX, this.lastY);
+			ctx.lineTo(this.x, this.y);
+			ctx.stroke();
+		},	
+		update: function(){
+			var mx = this.x;
+			var my = this.y;	
+			this.lastX = this.x;
+			this.lastY = this.y;
+			var x1 = cw/2;
+			var y1 = ch/2;
+			var x2 = mx;
+			var y2 = my;		
+			var rise = y1-y2;
+			var run = x1-x2;
+			var slope = -(rise/run);
+			var radian = Math.atan(slope);
+			var angleH = Math.floor(radian*(180/Math.PI));		
+			if(x2 < x1 && y2 < y1){angleH += 180;}		
+			if(x2 < x1 && y2 > y1){angleH += 180;}		
+			if(x2 > x1 && y2 > y1){angleH += 360;}		
+			if(y2 < y1 && slope =='-Infinity'){angleH = 90;}		
+			if(y2 > y1 && slope =='Infinity'){angleH = 270;}		
+			if(x2 < x1 && slope =='0'){angleH = 180;}
+			if(isNaN(angleH)){angleH = 0;}
+			
+			this.colorAngle = angleH;
+			this.x = this.centerX + Math.sin(this.angle*-1) * this.radius;
+			this.y = this.centerY + Math.cos(this.angle*-1) * this.radius;
+			this.angle += this.speed;
+		
+		}
+	});
 }
 
-function koch(sx,sy,ex,ey,kai,qt){
-    var a,x,y,p1,tx,ty,px,py,x1,y1;
-    x=ex-sx;
-    y=ey-sy;
-    p1=[];
-    for(a=0;a<3;a++){
-        px=p[a][0];
-        py=p[a][1];
-        x1=sx+x*px-y*py;
-        y1=sy+y*px+x*py;
-        p1.push([x1,y1]);
-    }
-    
-    if(kai<=0){
-        ctx.beginPath();
-        ctx.lineTo(sx,sy);
-        ctx.lineTo(p1[0][0],p1[0][1]);
-        ctx.lineTo(p1[1][0],p1[1][1]);
-        ctx.lineTo(p1[2][0],p1[2][1]);
-        ctx.lineTo(ex,ey);
-        ctx.stroke();
-        qt.push([sx,sy],p1[0],p1[1],p1[2]);
-    }else{
-        kai--;
-        koch(p1[0][0],p1[0][1],sx,sy,kai,qt);
-        koch(p1[0][0],p1[0][1],p1[1][0],p1[1][1],kai,qt);
-        koch(p1[2][0],p1[2][1],p1[1][0],p1[1][1],kai,qt);
-        koch(p1[2][0],p1[2][1],ex,ey,kai,qt);
-    }
+function orbGo(e){
+	var mx = e.pageX - c.offsetLeft;
+	var my = e.pageY - c.offsetTop;		
+	createOrb(mx,my);
 }
+
+function turnOnMove(){
+	c.addEventListener('mousemove', orbGo, false);	
+}
+
+function turnOffMove(){
+	c.removeEventListener('mousemove', orbGo, false);	
+}
+
+function toggleTrails(){
+	trail = trailCB.checked;
+}
+
+function clear(){
+ orbs = []; 
+}
+
+c.addEventListener('mousedown', orbGo, false);
+c.addEventListener('mousedown', turnOnMove, false);
+c.addEventListener('mouseup', turnOffMove, false);
+trailCB.addEventListener('change', toggleTrails, false);
+clearer.addEventListener('click', clear, false);
+
+var count = 100;
+while(count--){
+		createOrb(cw/2, ch/2+(count*2));
+}
+
+var loop = function(){
+  window.requestAnimFrame(loop);
+	if(trail){
+		ctx.fillStyle = 'rgba(0,0,0,.1)';
+		ctx.fillRect(0,0,cw,ch);
+	} else {
+		ctx.clearRect(0,0,cw,ch);
+	}
+	var i = orbs.length;
+	while(i--){	
+		var orb = orbs[i];	
+		var updateCount = 3;
+		while(updateCount--){
+		orb.update();		
+		orb.draw(ctx);
+		}
+		
+	}
+}
+            
+loop();
