@@ -4,11 +4,8 @@ h1 {
   text-align: center;
 }
 h2 {
-  color: white;
+  color: black;
   text-align: center;
-}
-body {
-  background-size: 60px 40px;
 }
 a {
   font-size: 20px;
