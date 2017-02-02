@@ -6,7 +6,6 @@ h1 {
 h2 {
   color: black;
   text-align: center;
-  margin-top: 150px;
 }
 a {
   font-size: 20px;
@@ -16,6 +15,9 @@ body {
 }
 p {
   text-align: right;
+}
+h4 {
+  margin-top: 200px;
 }
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
