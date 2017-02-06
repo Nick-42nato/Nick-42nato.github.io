@@ -1,21 +1,2 @@
-var q=document.getElementById('q'),
-		s=window.screen,
-		w=q.width=s.width,
-		h=q.height=s.height,
-		p=Array(256).join(1).split(''),
-		c=q.getContext("2d"),
-		m=Math;
-
-setInterval(function(){
-  c.fillStyle="rgba(0,0,0,0.05)";
-	c.fillRect(0,0,w,h);
-	c.fillStyle="rgba(0,255,0,1)";
-	p=p.map(function(v,i){
-		r=m.random();
-		var str = String.fromCharCode(m.floor(2720+r*33));
-		c.fillText(str,i*10,v);
-		v+=10;
-		var ret = v>768+r*1e4?0:v
-		return ret;
-	});
-},33);
+TweenMax.staggerFrom(document.querySelectorAll("[data-bit]"), 0.75, { y: 200, autoAlpha: 0 }, -0.15);
+TweenMax.from(document.querySelectorAll("[data-allBits]"), 1.5, { y: 100, ease: Back.easeOut.config(4) });
