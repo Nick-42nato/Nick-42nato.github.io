@@ -94,11 +94,7 @@ nav{
             left: 100%; 
             top:0;
           }	
-body {
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
-}
+
 
 .instagram {
   position: relative;
