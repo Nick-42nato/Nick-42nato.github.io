@@ -99,15 +99,6 @@ body {
   background-color: #141923;
 }
 
-.container {
-  position: absolute;
-  height: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
-.art {
-  height: 100%;
-}
 
 
