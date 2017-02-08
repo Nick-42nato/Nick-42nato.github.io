@@ -99,7 +99,8 @@ body {
 }
 
 .pic{
-  padding-left:400px;
+  padding-left:200px;
+  padding-right:300px;
   width:304px; 
   height:236px;
 }
