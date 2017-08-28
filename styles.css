@@ -1,9 +1,9 @@
 h1 {
   text-align: center;
-  color: #056C1B;
   font-weight: bold;
 }
 
 p {
   color: #056C1B;
+  border: 10px solid ##056C1B;
 }
