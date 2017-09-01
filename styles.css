@@ -1,20 +1,17 @@
 .box {
   min-height: 30vh;
   width: 60vh;
-  margin: auto;
 }
 
 .box2 {
-   min-height: 100vh;
-  width: 50vh;
-  margin: auto;
+   min-height: 90vh;
+  width: 60vh;
   display: inline-block;
 }
 
 .box3 {
-  min-height: 100px;
-  width: 50px;
-  margin: auto;
+  min-height: 100vh;
+  width: 50vh;
   display: inline-table;
 }
 
