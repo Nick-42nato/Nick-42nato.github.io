@@ -1,13 +1,13 @@
 .box {
-  min-height: 100px;
-  width: 50px;
+  min-height: 100vh;
+  width: 50vh;
   margin: auto;
   display: inline-table;
 }
 
 .box2 {
-   min-height: 100px;
-  width: 50px;
+   min-height: 100vh;
+  width: 50vh;
   margin: auto;
   display: inline-block;
 }
