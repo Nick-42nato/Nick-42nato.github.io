@@ -1,11 +1,17 @@
 .box {
-  min-height: 100%;
-  width: 50%;
+  min-height: 100;
+  width: 50;
   margin: auto;
 }
 
 .box2 {
-   min-height: 100%;
+   min-height: 100;
+  width: 50p;
+  margin: auto;
+}
+
+box3 {
+  min-height: 100;
   width: 50p%;
   margin: auto;
 }
