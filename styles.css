@@ -2,12 +2,14 @@
   min-height: 100px;
   width: 50px;
   margin: auto;
+  display: inline-table;
 }
 
 .box2 {
    min-height: 100px;
   width: 50px;
   margin: auto;
+  display: inline-block;
 }
 
 box3 {
