@@ -15,6 +15,12 @@
   display: inline-table;
 }
 
+box4 {
+  min-height: 90vh;
+  width: 60vh;
+  display: inline-table;
+}
+
 .dark_blue {
   background-color: #035959;
 }
