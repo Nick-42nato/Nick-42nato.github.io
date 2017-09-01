@@ -5,5 +5,27 @@
 }
 
 .box2 {
+   min-height: 100px;
+  width: 50px;
+  margin: auto;
 }
 
+.dark blue {
+  color: #035959;
+}
+
+.light blue {
+  color: #0B8D80;
+}
+
+.grey {
+  color: #212629;
+}
+
+.brown {
+  color: #210202;
+}
+
+.green {
+  color: #005921;
+}
