@@ -1,15 +1,9 @@
-h1 {
-  text-align: center;
-  font-weight: bold;
-  font-family: "sans-serif";
+.box {
+  min-height: 100px;
+  width: 50px;
+  margin: auto;
 }
 
-p {
-  color: #056C1B;
-  border: 10px solid ##056C1B;
-}
-
-a {
-  color: #056C1B;
+.box2 {
 }
 
