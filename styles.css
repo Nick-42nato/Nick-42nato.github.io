@@ -12,7 +12,7 @@
   display: inline-block;
 }
 
-box3 {
+.box3 {
   min-height: 100px;
   width: 50px;
   margin: auto;
