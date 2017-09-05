@@ -1,29 +1,29 @@
 .box {
   min-height: 30vh;
-  width: 20%;
+  width: 30%;
 }
 
 .box2 {
    min-height: 90vh;
-  width: 20%;
+  width: 30%;
   display: inline-block;
 }
 
 .box3 {
   min-height: 30vh;
-  width: 15%;
+  width: 25%;
   display: inline-table;
 }
 
 .box4 {
   min-height: 30vh;
-  width: 5%;
+  width: 15%;
   display: inline-table;
 }
 
 .box5 {
   min-height: 90vh;
-  width: 25%;
+  width: 35%;
   display: inline-table;
 }
 
