@@ -10,15 +10,21 @@
 }
 
 .box3 {
-  min-height: 90vh;
-  width: 50vh;
+  min-height: 30vh;
+  width: 40vh;
   display: inline-table;
 }
 
 .box4 {
-  min-height: 90vh;
-  width: 60vh;
+  min-height: 30vh;
+  width: 20vh;
   display: inline-table;
+}
+
+.box5 {
+  min-height: 90vh;
+  width: 50vh;
+  display: inline-block;
 }
 
 .dark_blue {
