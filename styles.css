@@ -24,6 +24,7 @@
 .box5 {
   min-height: 90vh;
   width: 50vh;
+  display: inline-table;
 }
 
 .dark_blue {
