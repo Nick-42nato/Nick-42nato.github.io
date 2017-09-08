@@ -17,23 +17,64 @@ body {
   margin-left: 8px;
 }
 
-
-.dark_blue {
-  background-color: #035959;
+.oneblock {
+ background-color: #035959; 
+ width: 50%;
+ min-height: 30%;
+ display: inline-block;
+ font-family: Harrow, Impact;
+ font-size: 30px;
+ color:black;
 }
 
-.light_blue {
-  background-color: #0B8D80;
+.twoblock {
+ background-color: #0B8D80; 
+ width: 30%;
+ min-height: 30%;
+ display: inline-block;
+ font-family: Harrow, Impact;
+ font-size: 30px;
+ color:black;
 }
 
-.grey {
-  background-color: #212629;
+.threeblock {
+ background-color: #212629; 
+ width: 18.8%;
+ min-height: 30%;
+ display: inline-block;
+ font-family: Harrow, Impact;
+ font-size: 30px;
+ color:white;
 }
 
-.brown {
-  background-color: #210202;
+.fourblock {
+ background-color: #210202; 
+ width: 50%;
+ height: 70%;
+ display: inline-block;
+ font-family: Harrow, Impact;
+ font-size: 30px;
 }
 
-.green {
-  background-color: #005921;
+.fiveblock {
+ background-color: #005921; 
+ width: 49%;
+ height: 70%;
+ display: inline-block;
+ font-family: Harrow, Impact;
+ font-size: 30px;
+ color: black;
 }
+
+
+p {
+ padding-top: 80px;
+    color: black;
+}
+
+.bottom {
+  padding-top: 250px;
+}
+
+
+
