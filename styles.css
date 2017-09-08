@@ -1,31 +1,22 @@
-.box {
-  min-height: 30vh;
-  width: 30%;
+html {
+  display: block;
 }
 
-.box2 {
-   min-height: 90vh;
-  width: 30%;
-  display: inline-block;
+body {
+  width: 90%;
+  height: 90%;
+  background-color: #636161;
 }
 
-.box3 {
-  min-height: 30vh;
-  width: 20%;
-  display: inline-table;
+body {
+  display: block;
+  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  margin-left: 8px;
 }
 
-.box4 {
-  min-height: 30vh;
-  width: 10%;
-  display: inline-table;
-}
-
-.box5 {
-  min-height: 90vh;
-  width: 35%;
-  display: inline-block;
-}
 
 .dark_blue {
   background-color: #035959;
