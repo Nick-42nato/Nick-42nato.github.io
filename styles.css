@@ -24,7 +24,7 @@ body {
  display: inline-block;
  font-family: Yellowtail, Impact;
  font-size: 30px;
- color:black;
+ color:white;
 }
 
 .twoblock {
@@ -34,7 +34,7 @@ body {
  display: inline-block;
  font-family: Roboto Slab, Impact;
  font-size: 30px;
- color:black;
+ color:white;
 }
 
 .threeblock {
@@ -54,6 +54,7 @@ body {
  display: inline-block;
  font-family: Frank Ruhl Libre, Impact;
  font-size: 30px;
+ color: white;
 }
 
 .fiveblock {
@@ -63,13 +64,13 @@ body {
  display: inline-block;
  font-family: Julius Sans One, Impact;
  font-size: 30px;
- color: black;
+ color: white;
 }
 
 
 p {
  padding-top: 80px;
-    color: black;
+    color: white;
 }
 
 .bottom {
