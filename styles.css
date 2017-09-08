@@ -5,7 +5,7 @@ html {
 body {
   width: 90%;
   height: 90%;
-  background-color: #00000;
+  background-color: #FFFFFF;
 }
 
 body {
@@ -22,7 +22,7 @@ body {
  width: 50%;
  min-height: 30%;
  display: inline-block;
- font-family: Harrow, Impact;
+ font-family: Yellowtail, Impact;
  font-size: 30px;
  color:black;
 }
@@ -32,7 +32,7 @@ body {
  width: 30%;
  min-height: 30%;
  display: inline-block;
- font-family: Harrow, Impact;
+ font-family: Roboto Slab, Impact;
  font-size: 30px;
  color:black;
 }
@@ -42,7 +42,7 @@ body {
  width: 18.8%;
  min-height: 30%;
  display: inline-block;
- font-family: Harrow, Impact;
+ font-family: Vidaloka, Impact;
  font-size: 30px;
  color:white;
 }
@@ -52,7 +52,7 @@ body {
  width: 50%;
  height: 70%;
  display: inline-block;
- font-family: Harrow, Impact;
+ font-family: Frank Ruhl Libre, Impact;
  font-size: 30px;
 }
 
@@ -61,7 +61,7 @@ body {
  width: 49%;
  height: 70%;
  display: inline-block;
- font-family: Harrow, Impact;
+ font-family: Julius Sans One, Impact;
  font-size: 30px;
  color: black;
 }
