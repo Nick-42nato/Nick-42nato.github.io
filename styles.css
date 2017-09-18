@@ -17,6 +17,10 @@ body {
   margin-left: 8px;
 }
 
+p {
+  text-align: center;
+}
+
 .oneblock {
  background-color: #035959; 
  width: 50%;
